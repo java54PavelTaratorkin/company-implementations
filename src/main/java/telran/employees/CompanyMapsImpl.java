@@ -1,5 +1,8 @@
 package telran.employees;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -108,13 +111,22 @@ public class CompanyMapsImpl implements Company, Persistable {
 
 	@Override
 	public void save(String filePathStr) {
-		// TODO Auto-generated method stub
+		try(PrintWriter writer = new PrintWriter(filePathStr)) {
+			this.forEach(empl -> writer.println(empl.getJSON()));
+		} catch(Exception e) {
+			throw new RuntimeException(e);
+		}
 		
 	}
 
 	@Override
 	public void restore(String filePathStr) {
-		// TODO Auto-generated method stub
+		try(BufferedReader reader = new BufferedReader(new FileReader(filePathStr))){
+			reader.lines().map(l -> (Employee) new Employee().setObject(l))
+			.forEach(this::addEmployee);
+		}catch(Exception e) {
+			throw new RuntimeException(e);
+		}
 		
 	}
 

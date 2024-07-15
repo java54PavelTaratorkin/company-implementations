@@ -7,6 +7,7 @@ public class Manager extends Employee {
     public Manager() {
     	
     }
+    
 	public Manager(long id, int basicSalary, String department, float factor) {
 		super(id, basicSalary, department);
 		this.factor = factor;
@@ -27,7 +28,9 @@ public class Manager extends Employee {
     	factor = jsonObject.getFloat("factor");
     }
   
-	
-	
+    @Override
+    public String toString() {
+        return super.toString() + String.format(", Factor: %.2f", factor);
+    }	
 
 }
